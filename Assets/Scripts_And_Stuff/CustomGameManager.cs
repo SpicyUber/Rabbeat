@@ -28,6 +28,7 @@ public class CustomGameManager : MonoBehaviour
         headphoneAbilityUI = FindAnyObjectByType<HeadphoneAbilityUI>();
         multiplier = 1;
         currentPlayerEnergy = playerEnergyBottom;
+       currentPlayerEnergy = playerEnergyCap-1;
         if(CircleSpawnerComponent == null)
         {
             throw new UnityException("CircleSpawnerComponent needs to be assigned to the gamemanager");

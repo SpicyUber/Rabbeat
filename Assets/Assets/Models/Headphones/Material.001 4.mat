@@ -75,7 +75,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _Value: 0.60898745
+    - _Value: 0.44885942
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 0.39526957, b: 0, a: 0.87058824}

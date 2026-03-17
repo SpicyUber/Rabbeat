@@ -135,7 +135,7 @@ public class playerScript : MonoBehaviour
         if (DodgeBall == null) { throw new UnityException("Please assign the DodgeBall"); }
         DodgeBall.SetActive(false);
        gameManager = GameObject.Find("CustomGameManager").GetComponent<CustomGameManager>();
-        if (gameManager == null) { throw new UnityException("I knew you found forget the CustomGameManager"); }
+        if (gameManager == null) { throw new UnityException("I knew you would forget the CustomGameManager"); }
         IsInPipe = false;
         SpinNerf = 0;
         bounceBonus = BounceBonusMin;
@@ -219,19 +219,8 @@ public class playerScript : MonoBehaviour
         if (isCrouching && isGrounded()) {
             playerSpeed = startingPlayerSpeed /4f;
         }else { playerSpeed= startingPlayerSpeed; }*/
-        
-        //animation
-        animator.SetBool("isGrounded", isGrounded());
-        animator.SetBool("isTumbling", isTumblingAnimation);
-        if (playerBody.velocity.magnitude > 0.01f) { animator.SetBool("isRunning",true); } else animator.SetBool("isRunning", false); 
-        if (playerBody.velocity.y>0.001f&&! isGrounded()) { animator.SetBool("isJumping", true); } else animator.SetBool("isJumping", false);
-        if (playerBody.velocity.y < -0.001f && !isGrounded()) { animator.SetBool("isFaliing", true); Headset.BobUp(); } else { animator.SetBool("isFaliing", false); Headset.ResetBob() ; }
-        animator.SetBool("isDashing", isDashing());
-        animator.SetBool("isSpinning", spinAnimationBool);
-        animator.SetBool("isAttacking", isAttacking);
-        animator.SetBool("isBouncing", isBouncing&&playerBody.velocity.y<0); // task 1: fix Bouncing anim. Task 2: add stun for missing a beat. Task 3: make jump less floaty
-        animator.SetBool("isStunned", IsStunned);
-        animator.SetBool("isSending", isSending);
+
+        UpdateAnimations();
 
         if (rs.beatMap[rs.beatIndex].isActive || previousFrameIsActive) { ts.transform.localScale = Vector3.one * 5f; } else ts.transform.localScale = Vector3.one;
 
@@ -257,6 +246,21 @@ public class playerScript : MonoBehaviour
         if (movementVector.magnitude > MAX_SPEED+tumbleBonus + bounceBonus* BounceMoveCoefficient) { movementVector = movementVector.normalized * (MAX_SPEED+ tumbleBonus + bounceBonus * BounceMoveCoefficient); Vector3 tempVec = playerBody.velocity; tempVec.x = movementVector.x; tempVec.z = movementVector.y; playerBody.velocity = tempVec; }
         
 
+    }
+
+    private void UpdateAnimations()
+    {         
+        animator.SetBool("isGrounded", isGrounded());
+        animator.SetBool("isTumbling", isTumblingAnimation);
+        if (playerBody.velocity.magnitude > 0.01f) { animator.SetBool("isRunning", true); } else animator.SetBool("isRunning", false);
+        if (playerBody.velocity.y > 0.001f && !isGrounded()) { animator.SetBool("isJumping", true); } else animator.SetBool("isJumping", false);
+        if (playerBody.velocity.y < -0.001f && !isGrounded()) { animator.SetBool("isFaliing", true); Headset.BobUp(); } else { animator.SetBool("isFaliing", false); Headset.ResetBob(); }
+        animator.SetBool("isDashing", isDashing());
+        animator.SetBool("isSpinning", spinAnimationBool);
+        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isBouncing", isBouncing && playerBody.velocity.y < 0); // task 1: fix Bouncing anim. Task 2: add stun for missing a beat. Task 3: make jump less floaty
+        animator.SetBool("isStunned", IsStunned);
+        animator.SetBool("isSending", isSending);
     }
 
     private void DustCoughBilboard()
@@ -718,7 +722,7 @@ IEnumerator delayedQF()
     }
 
     private void OnJump(InputValue value) {
-        Headset.SetAbility(HatCosmetic.Ability.Jump);
+       // Headset.SetAbility(HatCosmetic.Ability.Jump);
         if (IsInPipe && !IsStunned) { if (CurrentPipe == null) return; else if (rs.beatMap[rs.beatIndex].isActive || previousFrameIsActive) CurrentPipe.Pump(); else { StunPlayer(); CurrentPipe.SlowDown(); } return; }
         if(!isGrounded()&& (lastActiveBeatIndex == rs.beatIndex/* && rs.longestString <= 1*/)) { StunPlayer(); return; }
        // Debug.Log("beat = " + rs.beatIndex + "lastBeat = " + lastActiveBeatIndex);
@@ -892,7 +896,7 @@ IEnumerator delayedQF()
 
     }
     private void OnDash(InputValue value) {
-        Headset.SetAbility(HatCosmetic.Ability.Heal);
+       // Headset.SetAbility(HatCosmetic.Ability.Heal);
         if (IsStunned || isTumbling  || IsInPipe || isSending) return;
         if (spamCDbool /*|| currentString >= rs.longestString */|| (lastActiveBeatIndex == rs.beatIndex /*&& rs.longestString <= 1*/)) {
             StunPlayer();

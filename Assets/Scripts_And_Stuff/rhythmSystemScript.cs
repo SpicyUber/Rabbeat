@@ -67,13 +67,17 @@ public class rhythmSystemScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InitializeRhythmSystem();
+    }
+
+    public void InitializeRhythmSystem() {
         _longestStringRelevant = LongestStringIsRelevant;
         rollbackFrames = new rollbackFrame[3];
         beatIndex = 0;
         song = GetComponent<AudioSource>();
         startTime = 0f;
         song.PlayScheduled(1f);
-        if(testing)testAudioSource.PlayScheduled(1f);
+        if (testing) testAudioSource.PlayScheduled(1f);
         if (bars <= 0) throw new UnityException("Bpm is zero");
         if (activeBeats.Length == 0) throw new UnityException("activeBeats is empty");
         if (bars * 8 % activeBeats.Length != 0) throw new UnityException("activeBeats is in the wrong proportion");
@@ -83,10 +87,9 @@ public class rhythmSystemScript : MonoBehaviour
         fillBeatMap();
         fillLongestStringMap();
 
-       
+
         beatDuration = 60f / (bpm * 2);
     }
-
     void fillLongestStringMap()
     {
         if (!_longestStringRelevant) return; //shouldnt be here but im overriding.
