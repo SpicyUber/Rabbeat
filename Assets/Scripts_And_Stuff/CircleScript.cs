@@ -21,7 +21,7 @@ public class CircleScript : MonoBehaviour
    
     // Start is called before the first frame update
     void Start()
-    {
+    {  
         SpriteThingy = GetComponent<Image>();
         beatLine = GameObject.Find("BeatLine");
         rT = beatLine.GetComponent<RectTransform>();
@@ -30,6 +30,7 @@ public class CircleScript : MonoBehaviour
         rs = GameObject.FindFirstObjectByType<rhythmSystemScript>();
         rightLimit = transform.position.x + 2 * transform.position.x;
         startPos = GoalPosition();
+        Debug.Log("SPAWNED! " + beatNumber);
     }
 
     private float GoalPosition()

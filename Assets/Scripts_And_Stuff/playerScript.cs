@@ -1,16 +1,7 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime;
-using UnityEditor;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.InputSystem.HID;
-using static playerScript;
 
 public class playerScript : MonoBehaviour
 { public Rigidbody playerBody;

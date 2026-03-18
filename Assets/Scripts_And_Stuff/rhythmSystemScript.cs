@@ -180,8 +180,8 @@ public class rhythmSystemScript : MonoBehaviour
        
         if (elapsedSongTime > song.clip.length)
         {
-            startTime += song.clip.length;
-            elapsedSongTime = currentTime - startTime;
+            
+            elapsedSongTime = currentTime - startTime- song.clip.length;
         }
 
         
